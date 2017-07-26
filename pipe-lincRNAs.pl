@@ -85,3 +85,12 @@ $base_bed =~ s/\.\w+$//g;
 `perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl cpc-transDecoder-2remove.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta`;
 `grep '>' $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta | sed \'s/>//g\' | sed \'s/ .*//g\' >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam`;
 `cat $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam |  xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.bed`;
+
+### InterproScan
+`~/lncRNA-pipeTools/perl-scripts/split-FASTA.pl $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta 2171`;
+`nohup nice interproscan.sh -appl Panther,Pfam -t n -i $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta--file1.fasta -b lincRNAs-iprscan-part1 -T temp01 -goterms -iprlookup &`;
+`nohup nice interproscan.sh -appl Panther,Pfam -t n -i $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta--file2.fasta -b lincRNAs-iprscan-part2 -T temp02 -goterms -iprlookup &`;
+`nohup nice interproscan.sh -appl Panther,Pfam -t n -i $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta--file3.fasta -b lincRNAs-iprscan-part3 -T temp03 -goterms -iprlookup &`;
+`nohup nice interproscan.sh -appl Panther,Pfam -t n -i $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta--file4.fasta -b lincRNAs-iprscan-part4 -T temp04 -goterms -iprlookup &`;
+
+

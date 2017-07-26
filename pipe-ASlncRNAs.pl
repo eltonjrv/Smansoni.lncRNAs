@@ -92,7 +92,7 @@ $base_bed =~ s/\.\w+$//g;
 ### InterproScan for removing sequences showing hits against either Pfam or PANTHER protein domains databases
 ## ATTENTION: Depending on the size of the input fasta file, InterProScan may take several hours running.
 # That's why its execution is "commented" below, so the user can appropriately split his/her input fasta file and go along with the protein domains detection independently.
-# The commands below are suggestions on how to split and run interproscan on the Shell/Bash
+# The commands below are suggestions on how to split the FASTA input, run interproscan, merge the results and remove the domain-hitting sequences
 # $ ~/lncRNA-pipeTools/perl-scripts/split-FASTA.pl $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta 1000
 # $ for i in `ls *--file*.fasta`; do nohup nice interproscan.sh -appl Panther,Pfam -t n -i $i -b `echo $i | sed 's/.*--file/lincRNAs-iprscan-part/g' | sed 's/\.fasta//g'` -T temp`echo $i | sed 's/.*--file//g' | sed 's/\.fasta//g'` -goterms -iprlookup &; done
 ### After all interproscan runs have finished, run the following:

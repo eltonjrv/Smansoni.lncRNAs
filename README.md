@@ -4,6 +4,7 @@ The following abstract is from a manuscript (currently under review by Scientifi
 
 # The Schistosoma mansoni genome encodes thousands of long non-coding RNAs of which hundreds are predicted to be functional during parasite development
 Elton J. R. Vasconcelos, Lucas F. daSilva, David S. Pires, Guilherme M. Lavezzo, Adriana S. A. Pereira, Murilo S. Amaral and Sergio Verjovski-Almeida
+
 Laboratório de Expressão Gênica em Eucariotos, Instituto Butantan, 05503-900 São Paulo, SP, Brazil
 Departamento de Bioquímica, Instituto de Química, Universidade de São Paulo, 05508-900 São Paulo, SP, Brazil
 

@@ -6,7 +6,7 @@ BEGIN {
         ###         to the directory right above Bio/ in order
         ###         for perl to be able to locate the .pm files. 
 
-	$INSTALL_PATH =  "/home/elton/bioinformatics-tools/bioperl-1.4/";      #"/home/steve/perl/lib";
+	$INSTALL_PATH =  "/home/elton/bioinformatics-tools/bioperl-1.4/";      
 
         ###
         ####

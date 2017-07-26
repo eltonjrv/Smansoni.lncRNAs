@@ -9,10 +9,11 @@
 # Usage: nohup perl pipe-lincRNAs.pl [infile.fasta] [infile.bed] [annotated_genes.bed] [repeats_library.fasta] [ref-genome.fasta] >nohup-pipe-lincRNAs.out 2>nohup-pipe-lincRNAs.err &
 ################################################################################################################################
 # IMPORTANT NOTES:
-# Note 1: Run "git clone https://github.com/eltonjrv/Smansoni.lncRNAs/" on your "home" folder at your workstation
-# Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/) and EMBOSS suite (http://emboss.sourceforge.net/) installed and placed at your environment variables
-# Note 3: The chromosome IDs must be identical in all input files provided
-# Note 4: All the FASTA and BED output files generated during the execution of this pipeline are intuitively named, indicating all the performed filtering step(s)
+# Note 1: Do "git clone https://github.com/eltonjrv/Smansoni.lncRNAs/", change the directory to "Smansoni.lncRNAs", and then run this pipeline within that directory.
+# Note 2: Please take a look at "software2install.txt" file and make sure you have all those tools installed at your workstation. If they are not set on your environment variables, please edit the lines below where they are invoked, typing the program full PATH.
+# Note 3: Also take a look at the "Assembly of RNA-Seq reads" topic from "SupplementaryMethods.pdf" file, if you have no experience on transcriptome assemblies, in order to generate both "contigs.fasta" and "contigs.bed" input files.
+# Note 4: The chromosome IDs must be identical in the two bed files as well as in the ref-genome.fasta provided.
+# Note 5: All the FASTA and BED output files generated during the execution of this pipeline are named intuitively, indicating the filtering steps that have been performed.
 #################################################################################################################
 # This program and its embedded tools are free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

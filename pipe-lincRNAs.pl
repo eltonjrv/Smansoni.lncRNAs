@@ -12,8 +12,10 @@
 # Note 1: Do "git clone https://github.com/eltonjrv/Smansoni.lncRNAs/", change the directory to "Smansoni.lncRNAs", and then run this pipeline within that directory.
 # Note 2: Please take a look at "software2install.txt" file and make sure you have all those tools installed at your workstation. If they are not set on your environment variables, please edit the lines below where they are invoked, typing the program full PATH.
 # Note 3: Also take a look at the "Assembly of RNA-Seq reads" topic from "SupplementaryMethods.pdf" file, if you have no experience on transcriptome assemblies, in order to generate both "contigs.fasta" and "contigs.bed" input files.
-# Note 4: The chromosome IDs must be identical in the two bed files as well as in the ref-genome.fasta provided.
-# Note 5: All the FASTA and BED output files generated during the execution of this pipeline are named intuitively, indicating the filtering steps that have been performed.
+# Note 4: Accessories ad-hoc scripts written to support this pipeline are placed within "lncRNA-pipeTools/perl-scripts"
+# Note 5: One must edit line 9 from lncRNA-pipeTools/perl-scripts/seqtools.pl to correctly point to his/her bioperl full PATH
+# Note 6: The chromosome IDs must be identical in the two bed files as well as in the ref-genome.fasta provided.
+# Note 7: All the FASTA and BED output files generated during the execution of this pipeline are named intuitively, indicating the filtering steps that have been performed.
 #################################################################################################################
 # This program and its embedded tools are free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -89,7 +91,7 @@ $base_bed =~ s/\.\w+$//g;
 `cat $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam |  xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.bed`;
 
 ### InterproScan for removing sequences showing hits against either Pfam or PANTHER protein domains databases
-## ATTENTION: Depending on the size of the input fasta file, InterProScan may take several hours running.
+## ATTENTION: Depending on the size of the input fasta file, InterProScan may take several hours or even days running.
 # That's why its execution is "commented" below, so the user can appropriately split his/her input fasta file and go along with the protein domains detection independently.
 # The commands below are suggestions on how to split the FASTA input, run interproscan, merge the results and remove the domain-hitting sequences
 # $ perl lncRNA-pipeTools/perl-scripts/split-FASTA.pl $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta 1000

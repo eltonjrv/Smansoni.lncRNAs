@@ -22,6 +22,10 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details at http://www.gnu.org/licenses/.
 
+if (@ARGV != 5) {
+die ("**Error**\nThe cmd line must contain 5 arguments:\n\$perl pipe-ASlncRNAs.pl [infile.fasta] [infile.bed] [annotated_genes.bed] [repeats_library.fasta] [ref-genome.fasta]\nRead script's initial commented lines for a better explanation\n");
+}
+
 my $base_fasta = $ARGV[0];
 $base_fasta =~ s/\.\w+$//g;
 my $base_bed = $ARGV[1];

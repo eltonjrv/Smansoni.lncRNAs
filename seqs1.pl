@@ -28,7 +28,7 @@
 # Using seqtools.pl in the examples/seq distribution directory.
 # If you install this script on your system, modify this require
 # statement to have the absolute path to seqtools.pl
-require "/home/elton/bioinformatics-tools/perl-scripts/seqtools.pl";
+require "~/lncRNA-pipeTools/perl-scripts/seqtools.pl";
 
 
 use vars qw($VERSION $DESC);

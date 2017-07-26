@@ -38,7 +38,7 @@ $base_bed =~ s/\.\w+$//g;
 `perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-AS_PCs.nam -seq $base_fasta.fasta2 >$base_fasta-AS_PCs.fasta`;
 
 ### RepeatMasker: Eliminating transposable elements and low complexity repeats from the dataset
-`nice ~/lncRNA-pipeTools/RepeatMasker/RepeatMasker -s -lib $ARGV[3] -x -gff -gc 35 -dir . -pa 2 $base_fasta-AS_PCs.fasta`;
+`~/lncRNA-pipeTools/RepeatMasker/RepeatMasker -s -lib $ARGV[3] -x -gff -gc 35 -dir . -pa 8 $base_fasta-AS_PCs.fasta`;
 `perl ~/lncRNA-pipeTools/perl-scripts/myIQUSP-scripts/RM-cov_cutoff.pl $base_fasta-AS_PCs.fasta.cat $base_fasta-AS_PCs.fasta 0.5 >$base_fasta-masked_gt50percent-Blocks.tab`;
 `cut -f 1 $base_fasta-masked_gt50percent-Blocks.tab >$base_fasta-masked_gt50percent-Blocks.nam`;
 `perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl $base_fasta-masked_gt50percent-Blocks.nam -seq $base_fasta-AS_PCs.fasta >$base_fasta-AS_PCs-noRepeats.fasta`;
@@ -46,7 +46,7 @@ $base_bed =~ s/\.\w+$//g;
 `cat $base_bed-AS_PCs-noRepeats.nam | xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_bed-AS_PCs-noRepeats.bed`;
 
 #### Excluding Ribosomal RNAs
-`nice perl ~/lncRNA-pipeTools/ribopicker-standalone-0.4.3/ribopicker.pl -i 70 -c 50 -out_dir ./$base_fasta-RiboPickerOUT -f $base_fasta-AS_PCs-noRepeats.fasta -dbs rrnadb`;
+`perl ~/lncRNA-pipeTools/ribopicker-standalone-0.4.3/ribopicker.pl -i 70 -c 50 -out_dir ./$base_fasta-RiboPickerOUT -f $base_fasta-AS_PCs-noRepeats.fasta -dbs rrnadb`;
 `grep -P \'^>\' $base_fasta-RiboPickerOUT/*nonrrna.fa | sed \'s/^>//g\' | sed \'s/ .*//g\' >$base_bed-AS_PCs-noRepeats-nonrrna.nam`;
 `perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-AS_PCs-noRepeats-nonrrna.nam -seq $base_fasta-AS_PCs-noRepeats.fasta >$base_fasta-AS_PCs-noRepeats-nonrrna.fasta`;
 `cat $base_bed-AS_PCs-noRepeats-nonrrna.nam | xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_bed-AS_PCs-noRepeats-nonrrna.bed`;

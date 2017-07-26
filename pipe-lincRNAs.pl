@@ -1,16 +1,16 @@
 #!/usr/bin/perl
-# Programmer: Elton Vasconcelos (Aug/2015)
-# Pipeline for identification of novel putative lincRNAs that might be present in a transcriptome assembly (e.g. trinity contigs or tuxedo TCONS)
+# Programmer: Elton Vasconcelos (Aug/2015).
+# Pipeline for identification of novel putative lincRNAs that might be present in a transcriptome assembly (e.g. trinity contigs or tuxedo TCONS).
 # This code was written by me as part of my postdoctoral research grant entitled "Identification and characterization of regulatory Long Non-coding RNAs on the Schistosoma mansoni genome through NGS strategies and systems approach", funded by Sao Paulo research Foundation (FAPESP: 14/24560-8).
-# If you use this whole pipeline or part of it, please cite this github page as well as its embedded bioinformatics tools individually
+# If you use this whole pipeline or part of it, please cite this github page as well as its embedded bioinformatics tools individually.
 # Five input files must be provided at the cmd-line: contigs.fasta, contigs.bed, annotated_genes.bed, repeats_library.fasta, ref-genome.fasta
 ###############################################################################################################################
 # Usage: nohup perl pipe-lincRNAs.pl [infile.fasta] [infile.bed] [annotated_genes.bed] [repeats_library.fasta] [ref-genome.fasta] >nohup-pipe-lincRNAs.out 2>nohup-pipe-lincRNAs.err &
 ################################################################################################################################
 # IMPORTANT NOTES:
-# Note 1: 'git clone' the "lncRNA-pipeTools" branch from this repository to your "home" folder at your workstation
-# Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/) and EMBOSS suite (http://emboss.sourceforge.net/) installed and placed at your environment variables
-# Note 3: The chromosome IDs must be identical in all input files provided
+# Note 1: 'git clone' the "lncRNA-pipeTools" branch from this repository to your "home" folder at your workstation.
+# Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/) and EMBOSS suite (http://emboss.sourceforge.net/) installed and placed at your environment variables.
+# Note 3: The chromosome IDs must be identical in all input files provided.
 #################################################################################################################
 # This program and its embedded tools are free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

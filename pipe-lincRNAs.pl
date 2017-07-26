@@ -9,10 +9,10 @@
 # Usage: nohup perl pipe-lincRNAs.pl [infile.fasta] [infile.bed] [annotated_genes.bed] [repeats_library.fasta] [ref-genome.fasta] >nohup-pipe-lincRNAs.out 2>nohup-pipe-lincRNAs.err &
 ################################################################################################################################
 # IMPORTANT NOTES:
-# Note 1: 'git clone' the "lncRNA-pipeTools" branch from this repository to your "home" folder at your workstation.
-# Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/), EMBOSS suite (http://emboss.sourceforge.net/), and InterproScan (http://www.ebi.ac.uk/interpro/download.html) installed and set on your environment variables.
-# Note 3: The chromosome IDs must be identical in all input files provided.
-# Note 4: All the FASTA and BED output files generated during the execution of this pipeline have intuitive names that precisely indicate the performed filtering step(s)
+# Note 1: Run "git clone https://github.com/eltonjrv/Smansoni.lncRNAs/" on your "home" folder at your workstation
+# Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/) and EMBOSS suite (http://emboss.sourceforge.net/) installed and placed at your environment variables
+# Note 3: The chromosome IDs must be identical in all input files provided
+# Note 4: All the FASTA and BED output files generated during the execution of this pipeline are intuitively named, indicating all the performed filtering step(s)
 #################################################################################################################
 # This program and its embedded tools are free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,50 +40,50 @@ $base_bed =~ s/\.\w+$//g;
 ### bedtools intersect: catching all features that do not overlap to annotated genes
 `bedtools intersect -v -a $ARGV[1] -b $ARGV[2] >$base_bed-nonOverlapped2PCs.bed`;
 `cut -f 4 $base_bed-nonOverlapped2PCs.bed >$base_bed-nonOverlapped2PCs.nam`;
-`perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs.nam -seq $base_fasta.fasta2 >$base_fasta-nonOverlapped2PCs.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs.nam -seq $base_fasta.fasta2 >$base_fasta-nonOverlapped2PCs.fasta`;
 
 ### RepeatMasker: Eliminating transposable elements and low complexity repeats from the dataset
-`~/lncRNA-pipeTools/RepeatMasker/RepeatMasker -s -lib $ARGV[3] -x -gff -gc 35 -dir . -pa 8 $base_fasta-nonOverlapped2PCs.fasta`;
-`perl ~/lncRNA-pipeTools/perl-scripts/myIQUSP-scripts/RM-cov_cutoff.pl $base_fasta-nonOverlapped2PCs.fasta.cat $base_fasta-nonOverlapped2PCs.fasta 0.5 >$base_fasta-masked_gt50percent-Blocks.tab`;
+`lncRNA-pipeTools/RepeatMasker/RepeatMasker -s -lib $ARGV[3] -x -gff -gc 35 -dir . -pa 8 $base_fasta-nonOverlapped2PCs.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/RM-cov_cutoff.pl $base_fasta-nonOverlapped2PCs.fasta.cat $base_fasta-nonOverlapped2PCs.fasta 0.5 >$base_fasta-masked_gt50percent-Blocks.tab`;
 `cut -f 1 $base_fasta-masked_gt50percent-Blocks.tab >$base_fasta-masked_gt50percent-Blocks.nam`;
-`perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl $base_fasta-masked_gt50percent-Blocks.nam -seq $base_fasta-nonOverlapped2PCs.fasta >$base_fasta-nonOverlapped2PCs-noRepeats.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl $base_fasta-masked_gt50percent-Blocks.nam -seq $base_fasta-nonOverlapped2PCs.fasta >$base_fasta-nonOverlapped2PCs-noRepeats.fasta`;
 `grep \'>\' $base_fasta-nonOverlapped2PCs-noRepeats.fasta | sed \'s/^>//g\' | sed \'s/ .*//g\' >$base_bed-nonOverlapped2PCs-noRepeats.nam`; 
 `cat $base_bed-nonOverlapped2PCs-noRepeats.nam | xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_bed-nonOverlapped2PCs-noRepeats.bed`;
 
 #### Excluding Ribosomal RNAs
-`perl ~/lncRNA-pipeTools/ribopicker-standalone-0.4.3/ribopicker.pl -i 70 -c 50 -out_dir ./$base_fasta-RiboPickerOUT -f $base_fasta-nonOverlapped2PCs-noRepeats.fasta -dbs rrnadb`;
+`perl lncRNA-pipeTools/ribopicker-standalone-0.4.3/ribopicker.pl -i 70 -c 50 -out_dir ./$base_fasta-RiboPickerOUT -f $base_fasta-nonOverlapped2PCs-noRepeats.fasta -dbs rrnadb`;
 `grep -P \'^>\' $base_fasta-RiboPickerOUT/*nonrrna.fa | sed \'s/^>//g\' | sed \'s/ .*//g\' >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna.nam`;
-`perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna.fasta`;
 `cat $base_bed-nonOverlapped2PCs-noRepeats-nonrrna.nam | xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna.bed`;
 
 ### Catching spliced only (at least one intron greater than 30 bp)
 `grep -v -P \'\\\t0,*\$\' $base_bed-nonOverlapped2PCs-noRepeats-nonrrna.bed >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced.bed`;
-`perl ~/lncRNA-pipeTools/perl-scripts/myIQUSP-scripts/intronSizes_cutoff_onBed.pl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced.bed 30 >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.bed`;
+`perl lncRNA-pipeTools/perl-scripts/intronSizes_cutoff_onBed.pl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced.bed 30 >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.bed`;
 `cut -f 4 $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.bed >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.nam`;
-`perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.fasta`;
 ### Catching the ones with canonical splice sites only (GT - AG)
-`perl ~/lncRNA-pipeTools/perl-scripts/myIQUSP-scripts/catch_canonical_spliceSites.pl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.bed $ARGV[4] >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.bed`;
+`perl lncRNA-pipeTools/perl-scripts/catch_canonical_spliceSites.pl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.bed $ARGV[4] >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.bed`;
 `cut -f 4 $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.bed >$base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.nam`;
-`perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.fasta`;
 
 ### Getorf
 `getorf -noreverse -minsize 75 -find 0 -sequence $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.fasta -outseq getorf_out.fasta`;
-`perl ~/lncRNA-pipeTools/perl-scripts/myIQUSP-scripts/getorf-byPercentage.pl getorf_out.fasta 25 >getorf_out-gt25aaAND25cov.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/getorf-byPercentage.pl getorf_out.fasta 25 >getorf_out-gt25aaAND25cov.fasta`;
 `grep \'>\' getorf_out-gt25aaAND25cov.fasta | sed \'s/ .*//g\' | sed \'s/_[0-9]*\$//g\' | sed \'s/^>//g\' | sort -u >withORFsgt25aaAND25percentCov.nam`;
-`perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outmft fasta -excl withORFsgt25aaAND25percentCov.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outmft fasta -excl withORFsgt25aaAND25percentCov.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
 
 ### CPC
-`~/lncRNA-pipeTools/cpc-0.9-r2/bin/run_predict.sh $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta cpc-results.tab ./ cpc-evd`;
+`lncRNA-pipeTools/cpc-0.9-r2/bin/run_predict.sh $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta cpc-results.tab ./ cpc-evd`;
 `grep -P \'\\\tcoding\\\t\' cpc-results.tab | cut -f 1 | sort -u >cpc-coding.nam`;
 
 ### TransDecoder
-`~/lncRNA-pipeTools/TransDecoder-2.0.1/TransDecoder.LongOrfs -S -t $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
-`~/lncRNA-pipeTools/TransDecoder-2.0.1/TransDecoder.Predict -t $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
+`lncRNA-pipeTools/TransDecoder-2.0.1/TransDecoder.LongOrfs -S -t $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
+`lncRNA-pipeTools/TransDecoder-2.0.1/TransDecoder.Predict -t $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
 `grep -P \'\\\tCDS\'  $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta.transdecoder.gff3 | cut -f 1 | sort -u >transDecoder-ORFs.nam`;
 
 ### Removing CPC and transDecoder coding predictions
 `cat cpc-coding.nam transDecoder-ORFs.nam | sort -u >cpc-transDecoder-2remove.nam`;
-`perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl cpc-transDecoder-2remove.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta`;
+`perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl cpc-transDecoder-2remove.nam -seq $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta`;
 `grep '>' $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta | sed \'s/>//g\' | sed \'s/ .*//g\' >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam`;
 `cat $base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam |  xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_fasta-nonOverlapped2PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.bed`;
 

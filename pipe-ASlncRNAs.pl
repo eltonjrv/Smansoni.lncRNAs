@@ -41,6 +41,7 @@ $base_bed =~ s/\.\w+$//g;
 `perl -pi -e \'s/\\\|c/_c/g\' $ARGV[1]`;
 
 ### bedtools intersect: catching all features that overlap to annotated genes on the opposite strand with 33% of their (features being searched) coverage
+# Make sure your annotated_genes.bed input file contains protein-coding genes only.
 `bedtools intersect -S -loj -f 0.33 -a $ARGV[1] -b $ARGV[2] >$base_bed-AS_PCs.bedloj`;
 `grep 'Smp_' $base_bed-AS_PCs.bedloj | cut -f 1,2,3,4,5,6,7,8,9,10,11,12 | uniq >$base_bed-AS_PCs.bed`;
 `cut -f 4 $base_bed-AS_PCs.bed >$base_bed-AS_PCs.nam`;

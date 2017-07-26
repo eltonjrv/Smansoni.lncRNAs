@@ -1,8 +1,9 @@
 #!/usr/bin/perl
 # Programmer: Elton Vasconcelos (last update: Sep/2016)
 # Pipeline for identification of antisense lncRNAs that might be present in a transcriptome assembly (e.g. trinity contigs or tuxedo TCONS).
-# This code was written by me as part of my postdoctoral research grant entitled "Identification and characterization of regulatory Long Non-coding RNAs on the Schistosoma mansoni genome through NGS strategies and systems approach", funded by Sao Paulo research Foundation (FAPESP: 14/24560-8).
+# This code was written by me as part of my postdoctoral research grant entitled "Identification and characterization of regulatory Long Non-coding RNAs on the Schistosoma mansoni genome through NGS strategies and systems approach", funded by Sao Paulo Research Foundation (FAPESP: 14/24560-8).
 # If you use this whole pipeline or part of it, please cite this github page as well as its embedded bioinformatics tools individually.
+# Our manuscript is currently under review by Scientific Reports (a NPG Journal).
 # Five input files must be provided at the cmd-line: contigs.fasta, contigs.bed, annotated_genes.bed, repeats_library.fasta, ref-genome.fasta
 ###############################################################################################################################
 # Usage: nohup perl pipe-ASlncRNAs.pl [infile.fasta] [infile.bed] [annotated_genes.bed] [repeats_library.fasta] [ref-genome.fasta] >nohup-pipe-ASlncRNAs.out 2>nohup-pipe-ASlncRNAs.err &

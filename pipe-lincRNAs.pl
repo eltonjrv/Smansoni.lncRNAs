@@ -34,7 +34,7 @@ my $base_bed = $ARGV[1];
 $base_bed =~ s/\.\w+$//g;
 
 ### Running readseq.jar to add the sequence length at the end of each headline (>.+ \d+ bp$)
-`java -jar ~/lncRNA-pipeTools/readseq.jar -inform fasta -f fasta -o $base_fasta.fasta2 $ARGV[0]`;
+`java -jar lncRNA-pipeTools/readseq.jar -inform fasta -f fasta -o $base_fasta.fasta2 $ARGV[0]`;
 `perl -pi -e \'s/\\\|c/_c/g\' $base_fasta.fasta2`;     #If it is a trinity assembly, the contig IDs have a "|" character that must be replaced by "_"
 `perl -pi -e \'s/\\\|c/_c/g\' $ARGV[1]`;
 

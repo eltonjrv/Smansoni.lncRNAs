@@ -10,7 +10,7 @@
 ################################################################################################################################
 # IMPORTANT NOTES:
 # Note 1: 'git clone' the "lncRNA-pipeTools" branch from this repository to your "home" folder at your workstation.
-# Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/) and EMBOSS suite (http://emboss.sourceforge.net/) installed and placed at your environment variables.
+# Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/), EMBOSS suite (http://emboss.sourceforge.net/), and InterproScan (http://www.ebi.ac.uk/interpro/download.html) installed and set on your environment variables.
 # Note 3: The chromosome IDs must be identical in all input files provided.
 #################################################################################################################
 # This program and its embedded tools are free software: you can redistribute it and/or modify

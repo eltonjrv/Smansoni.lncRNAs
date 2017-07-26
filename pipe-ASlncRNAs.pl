@@ -12,6 +12,7 @@
 # Note 1: 'git clone' the "lncRNA-pipeTools" branch from this repository to your "home" folder at your workstation
 # Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/) and EMBOSS suite (http://emboss.sourceforge.net/) installed and placed at your environment variables
 # Note 3: The chromosome IDs must be identical in all input files provided
+# Note 4: All the FASTA and BED output files generated during the execution of this pipeline have intuitive names that precisely indicate the performed filtering step(s)
 #################################################################################################################
 # This program and its embedded tools are free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -86,4 +87,18 @@ $base_bed =~ s/\.\w+$//g;
 `perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl cpc-transDecoder-2remove.nam -seq $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta`;
 `grep  '>' $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta | sed \'s/>//g\' | sed \'s/ .*//g\' >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam`;
 `cat $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam |  xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.bed`;
+
+### InterproScan for removing hits against either Pfam or PANTHER protein domains databases
+## ATTENTION: Depending on the size of the input fasta file, InterProScan may take several hours running.
+# That's why its execution is "commented" below, so the user can appropriately split his/her input fasta file and go along with the protein domains detection independently.
+# The commands below are suggestions on how to split and run interproscan on the Shell/Bash
+# $ ~/lncRNA-pipeTools/perl-scripts/split-FASTA.pl $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta 1000
+# $ for i in `ls *--file*.fasta`; do nohup nice interproscan.sh -appl Panther,Pfam -t n -i $i -b `echo $i | sed 's/.*--file/lincRNAs-iprscan-part/g' | sed 's/\.fasta//g'` -T temp`echo $i | sed 's/.*--file//g' | sed 's/\.fasta//g'` -goterms -iprlookup &; done
+### After all interproscan runs have finished, run the following:
+# $ cat lincRNAs-iprscan-part*gff3 | grep -P '\tPANTHER\t.*\t\+\t|\tPfam\t.*\t\+\t' >lincRNAs-iprscan-PANTHER_Pfam-hits.gff3;
+# $ cut -f 1 lincRNAs-iprscan-PANTHER_Pfam-hits.gff3 | sort -u >lincRNAs-iprscan-PANTHER_Pfam-hits.nam
+# $ perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl lincRNAs-iprscan-PANTHER_Pfam-hits.nam -seq $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD-noIprScan.fasta
+# $ grep '>' $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD-noIprScan.fasta | sed \'s/>//g\' | sed \'s/ .*//g\' >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD-noIprScan.nam
+# $ cat $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD-noIprScan.nam |  xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD-noIprScan.bed
+
 

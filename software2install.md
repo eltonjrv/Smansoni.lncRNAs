@@ -1,4 +1,5 @@
-## Please have the following open source software installed at your workstation/server in order to run both pipe-lincRNAs.pl and pipe-ASlncRNAs.pl scripts appropriately.
+# Please have the following open source software installed at your workstation/server in order to
+run both pipe-lincRNAs.pl and pipe-ASlncRNAs.pl scripts appropriately.
 
 # bedtools (http://bedtools.readthedocs.io/en/latest/) 
 # BioPerl (http://bioperl.org/)

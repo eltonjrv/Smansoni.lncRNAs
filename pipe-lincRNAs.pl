@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# Programmer: Elton Vasconcelos (Aug/2015).
+# Programmer: Elton Vasconcelos (last update: Sep/2016).
 # Pipeline for identification of novel putative lincRNAs that might be present in a transcriptome assembly (e.g. trinity contigs or tuxedo TCONS).
 # This code was written by me as part of my postdoctoral research grant entitled "Identification and characterization of regulatory Long Non-coding RNAs on the Schistosoma mansoni genome through NGS strategies and systems approach", funded by Sao Paulo research Foundation (FAPESP: 14/24560-8).
 # If you use this whole pipeline or part of it, please cite this github page as well as its embedded bioinformatics tools individually.

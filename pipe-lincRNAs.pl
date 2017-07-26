@@ -32,7 +32,7 @@ $base_bed =~ s/\.\w+$//g;
 `perl -pi -e \'s/\\\|c/_c/g\' $base_fasta.fasta2`;     #If it is a trinity assembly, the contig IDs have a "|" character that must be replaced by "_"
 `perl -pi -e \'s/\\\|c/_c/g\' $ARGV[1]`;
 
-### bedtools intersect: catching all features that do not overlap with annotated genes
+### bedtools intersect: catching all features that do not overlap to annotated genes
 `bedtools intersect -v -a $ARGV[1] -b $ARGV[2] >$base_bed-nonOverlapped2PCs.bed`;
 `cut -f 4 $base_bed-nonOverlapped2PCs.bed >$base_bed-nonOverlapped2PCs.nam`;
 `perl ~/lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-nonOverlapped2PCs.nam -seq $base_fasta.fasta2 >$base_fasta-nonOverlapped2PCs.fasta`;

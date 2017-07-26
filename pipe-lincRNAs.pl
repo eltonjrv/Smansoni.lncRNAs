@@ -11,10 +11,10 @@
 # IMPORTANT NOTES:
 # Note 1: Do "git clone https://github.com/eltonjrv/Smansoni.lncRNAs/", change the directory to "Smansoni.lncRNAs", and then run this pipeline within that directory.
 # Note 2: Please take a look at "software2install.txt" file and make sure you have all those tools installed at your workstation. If they are not set on your environment variables, please edit the lines below where they are invoked, typing the program full PATH.
-# Note 3: Also take a look at the "Assembly of RNA-Seq reads" topic from "SupplementaryMethods.pdf" file, if you have no experience on transcriptome assemblies, in order to generate both "contigs.fasta" and "contigs.bed" input files.
-# Note 4: Accessories ad-hoc scripts written to support this pipeline are placed within "lncRNA-pipeTools/perl-scripts"
-# Note 5: One must edit line 9 from lncRNA-pipeTools/perl-scripts/seqtools.pl to correctly point to his/her bioperl full PATH
-# Note 6: The chromosome IDs must be identical in the two bed files as well as in the ref-genome.fasta provided.
+# Note 3: Also take a look at the "Assembly of RNA-Seq reads" topic from "SupplementaryMethods.pdf" file (if you have no experience on transcriptome assemblies) in order to generate both "contigs.fasta" and "contigs.bed" input files.
+# Note 4: Accessories ad-hoc scripts written to support this pipeline are placed within "lncRNA-pipeTools/perl-scripts" dir.
+# Note 5: One must edit line 9 from "lncRNA-pipeTools/perl-scripts/seqtools.pl" to correctly point to his/her BioPerl full PATH, as well as line 31 from "lncRNA-pipeTools/perl-scripts/seqs1.pl", replacing the seqtools.pl right location.
+# Note 6: The chromosome IDs must be identical in the two bed files as well as in the ref-genome.fasta provided on the cmd-line.
 # Note 7: All the FASTA and BED output files generated during the execution of this pipeline are named intuitively, indicating the filtering steps that have been performed.
 #################################################################################################################
 # This program and its embedded tools are free software: you can redistribute it and/or modify

@@ -4,6 +4,7 @@
 # BioPerl (http://bioperl.org/)
 # CPC (http://cpc.cbi.pku.edu.cn/)
 # EMBOSS suite (http://emboss.sourceforge.net/)
+# InterProscan (https://www.ebi.ac.uk/interpro/interproscan.html)
 # RepeatMasker (http://www.repeatmasker.org/)
 # riboPicker (http://ribopicker.sourceforge.net/)
 # TransDecoder (https://transdecoder.github.io/)

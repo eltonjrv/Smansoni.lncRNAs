@@ -9,10 +9,11 @@
 # Usage: nohup perl pipe-ASlncRNAs.pl [infile.fasta] [infile.bed] [annotated_genes.bed] [repeats_library.fasta] [ref-genome.fasta] >nohup-pipe-ASlncRNAs.out 2>nohup-pipe-ASlncRNAs.err &
 ###############################################################################################################################
 # IMPORTANT NOTES:
-# Note 1: Run "git clone https://github.com/eltonjrv/Smansoni.lncRNAs/" on your "home" folder at your workstation
-# Note 2: Please have bedtools (http://bedtools.readthedocs.io/en/latest/) and EMBOSS suite (http://emboss.sourceforge.net/) installed and placed at your environment variables
-# Note 3: The chromosome IDs must be identical in all input files provided
-# Note 4: All the FASTA and BED output files generated during the execution of this pipeline are intuitively named, indicating all the performed filtering step(s)
+# Note 1: Do "git clone https://github.com/eltonjrv/Smansoni.lncRNAs/", change the directory to "Smansoni.lncRNAs", and then run this pipeline within that directory.
+# Note 2: Please take a look at "software2install.txt" file and make sure you have all those tools installed at your workstation. If they are not set on your environment variables, please edit the lines below where they are invoked, typing the program full PATH.
+# Note 3: Also take a look at the "Assembly of RNA-Seq reads" topic from "SupplementaryMethods.pdf" file, if you have no experience on transcriptome assemblies, in order to generate both "contigs.fasta" and "contigs.bed" input files.
+# Note 4: The chromosome IDs must be identical in the two bed files as well as in the ref-genome.fasta provided.
+# Note 5: All the FASTA and BED output files generated during the execution of this pipeline are named intuitively, indicating the filtering steps that have been performed.
 #################################################################################################################
 # This program and its embedded tools are free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ $base_bed =~ s/\.\w+$//g;
 `perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-AS_PCs.nam -seq $base_fasta.fasta2 >$base_fasta-AS_PCs.fasta`;
 
 ### RepeatMasker: Eliminating transposable elements and low complexity repeats from the dataset
-`lncRNA-pipeTools/RepeatMasker/RepeatMasker -s -lib $ARGV[3] -x -gff -gc 35 -dir . -pa 8 $base_fasta-AS_PCs.fasta`;
+`RepeatMasker -s -lib $ARGV[3] -x -gff -gc 35 -dir . -pa 8 $base_fasta-AS_PCs.fasta`;
 `perl lncRNA-pipeTools/perl-scripts/RM-cov_cutoff.pl $base_fasta-AS_PCs.fasta.cat $base_fasta-AS_PCs.fasta 0.5 >$base_fasta-masked_gt50percent-Blocks.tab`;
 `cut -f 1 $base_fasta-masked_gt50percent-Blocks.tab >$base_fasta-masked_gt50percent-Blocks.nam`;
 `perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -excl $base_fasta-masked_gt50percent-Blocks.nam -seq $base_fasta-AS_PCs.fasta >$base_fasta-AS_PCs-noRepeats.fasta`;
@@ -52,7 +53,7 @@ $base_bed =~ s/\.\w+$//g;
 `cat $base_bed-AS_PCs-noRepeats.nam | xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_bed-AS_PCs-noRepeats.bed`;
 
 #### Excluding Ribosomal RNAs
-`perl lncRNA-pipeTools/ribopicker-standalone-0.4.3/ribopicker.pl -i 70 -c 50 -out_dir ./$base_fasta-RiboPickerOUT -f $base_fasta-AS_PCs-noRepeats.fasta -dbs rrnadb`;
+`perl ribopicker-standalone-0.4.3/ribopicker.pl -i 70 -c 50 -out_dir ./$base_fasta-RiboPickerOUT -f $base_fasta-AS_PCs-noRepeats.fasta -dbs rrnadb`;
 `grep -P \'^>\' $base_fasta-RiboPickerOUT/*nonrrna.fa | sed \'s/^>//g\' | sed \'s/ .*//g\' >$base_bed-AS_PCs-noRepeats-nonrrna.nam`;
 `perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outfmt fasta -incl $base_bed-AS_PCs-noRepeats-nonrrna.nam -seq $base_fasta-AS_PCs-noRepeats.fasta >$base_fasta-AS_PCs-noRepeats-nonrrna.fasta`;
 `cat $base_bed-AS_PCs-noRepeats-nonrrna.nam | xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_bed-AS_PCs-noRepeats-nonrrna.bed`;
@@ -74,12 +75,12 @@ $base_bed =~ s/\.\w+$//g;
 `perl lncRNA-pipeTools/perl-scripts/seqs1.pl -outmft fasta -excl withORFsgt25aaAND25percentCov.nam -seq $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice.fasta >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
 
 ### CPC
-`lncRNA-pipeTools/cpc-0.9-r2/bin/run_predict.sh $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta cpc-results.tab ./ cpc-evd`;
+`cpc-0.9-r2/bin/run_predict.sh $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta cpc-results.tab ./ cpc-evd`;
 `grep -P \'\\\tcoding\\\t\' cpc-results.tab | cut -f 1 | sort -u >cpc-coding.nam`;
 
 ### TransDecoder
-`lncRNA-pipeTools/TransDecoder-2.0.1/TransDecoder.LongOrfs -S -t $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
-`lncRNA-pipeTools/TransDecoder-2.0.1/TransDecoder.Predict -t $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
+`TransDecoder-2.0.1/TransDecoder.LongOrfs -S -t $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
+`TransDecoder-2.0.1/TransDecoder.Predict -t $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta`;
 `grep -P \'\\\tCDS\'  $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs.fasta.transdecoder.gff3 | cut -f 1 | sort -u >transDecoder-ORFs.nam`;
 
 ### Removing CPC and transDecoder coding predictions
@@ -88,7 +89,7 @@ $base_bed =~ s/\.\w+$//g;
 `grep  '>' $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.fasta | sed \'s/>//g\' | sed \'s/ .*//g\' >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam`;
 `cat $base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.nam |  xargs -i grep -P \'{}\\\t\' $ARGV[1] >$base_fasta-AS_PCs-noRepeats-nonrrna-spliced-intron_gt30-canonicalSplice-noORFs-noCPC_TD.bed`;
 
-### InterproScan for removing hits against either Pfam or PANTHER protein domains databases
+### InterproScan for removing sequences showing hits against either Pfam or PANTHER protein domains databases
 ## ATTENTION: Depending on the size of the input fasta file, InterProScan may take several hours running.
 # That's why its execution is "commented" below, so the user can appropriately split his/her input fasta file and go along with the protein domains detection independently.
 # The commands below are suggestions on how to split and run interproscan on the Shell/Bash

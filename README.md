@@ -1,4 +1,4 @@
-# Smansoni.lncRNAs
+### Smansoni.lncRNAs
 Ad-hoc pipeline for lncRNAs identification on the genome/transcriptome of the blood fluke Schistosoma mansoni. From a manuscript (currently under review) in which we have applied the computational pipelines disclosed herein (pipe-lincRNAs.pl and pipe-ASlncRNAs.pl).
 
 

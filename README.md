@@ -1,5 +1,5 @@
 ### Smansoni.lncRNAs
-Ad-hoc pipeline for lncRNAs identification on the genome/transcriptome of the blood fluke Schistosoma mansoni. From a manuscript (currently under review) in which we have applied the computational pipelines disclosed herein (pipe-lincRNAs.pl and pipe-ASlncRNAs.pl).
+Ad-hoc pipeline for lncRNAs identification on the genome/transcriptome of the blood fluke Schistosoma mansoni. From a manuscript (accepted by Scientific Reports and currently in process of being published) in which we have applied the computational pipelines disclosed herein (pipe-lincRNAs.pl and pipe-ASlncRNAs.pl).
 
 
 # The Schistosoma mansoni genome encodes thousands of long non-coding RNAs predicted to be functional at different parasite life-cycle stages

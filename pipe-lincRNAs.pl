@@ -2,8 +2,7 @@
 # Programmer: Elton Vasconcelos (last update: Sep/2016).
 # Pipeline for identification of novel putative lincRNAs that might be present in a transcriptome assembly (e.g. trinity contigs or tuxedo TCONS).
 # This code was written by me as part of my postdoctoral research grant entitled "Identification and characterization of regulatory Long Non-coding RNAs on the Schistosoma mansoni genome through NGS strategies and systems approach", funded by Sao Paulo Research Foundation (FAPESP: 14/24560-8).
-# If you use this whole pipeline or part of it, please cite this github page as well as its embedded bioinformatics tools individually.
-# Our manuscript is currently under review by Scientific Reports (a NPG Journal).
+# If you use this whole pipeline or part of it, please cite Vasconcelos et. al., 2017 (https://www.nature.com/articles/s41598-017-10853-6) as well as its embedded bioinformatics tools individually.
 # Five input files must be provided at the cmd-line: contigs.fasta, contigs.bed, annotated_genes.bed, repeats_library.fasta, ref-genome.fasta
 ###############################################################################################################################
 # Usage: nohup perl pipe-lincRNAs.pl [infile.fasta] [infile.bed] [annotated_genes.bed] [repeats_library.fasta] [ref-genome.fasta] >nohup-pipe-lincRNAs.out 2>nohup-pipe-lincRNAs.err &
@@ -11,7 +10,7 @@
 # IMPORTANT NOTES:
 # Note 1: Do "git clone https://github.com/eltonjrv/Smansoni.lncRNAs/", change the directory to "Smansoni.lncRNAs", and then run this pipeline within that directory.
 # Note 2: Please take a look at "software2install.txt" file and make sure you have all those tools installed at your workstation. If they are not set on your environment variables, please edit the lines below where they are invoked, typing the program full PATH.
-# Note 3: Also take a look at the "Assembly of RNA-Seq reads" topic from "SupplementaryMethods.pdf" file (if you have no experience on transcriptome assemblies) in order to generate both "contigs.fasta" and "contigs.bed" input files.
+# Note 3: Also take a look at the "Assembly of RNA-Seq reads" topic from the Supplementary Methods of our publication (if you have no experience on transcriptome assemblies) in order to generate both "contigs.fasta" and "contigs.bed" input files.
 # Note 4: Accessories ad-hoc scripts written to support this pipeline are placed within "lncRNA-pipeTools/perl-scripts" dir.
 # Note 5: One must edit line 9 from "lncRNA-pipeTools/perl-scripts/seqtools.pl" to correctly point to his/her BioPerl full PATH, as well as line 31 from "lncRNA-pipeTools/perl-scripts/seqs1.pl", replacing the seqtools.pl right location.
 # Note 6: The chromosome IDs must be identical on the two bed input files as well as on the ref-genome.fasta provided in the command line

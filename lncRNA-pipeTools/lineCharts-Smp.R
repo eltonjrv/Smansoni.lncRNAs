@@ -1,0 +1,18 @@
+library(ggplot2)
+args <- commandArgs(TRUE)
+x = read.table(args[1], row.names=1)
+linc = rep(c("LINC"), length(x[,1])-1)
+gene_type = c(linc, "PC")
+cerc = rep(c("Cerc"), length(x[,1]))
+s3h = rep(c("3S"), length(x[,1]))
+s24h = rep(c("24S"), length(x[,1]))
+male = rep(c("Male"), length(x[,1]))
+female = rep(c("Female"), length(x[,1]))
+dat = data.frame(type = factor(as.vector(gene_type)), geneID = rownames(x), stage = as.vector(c(cerc, s3h, s24h, male, female)), FC = c(x[,1], x[,2], x[,3], x[,4], x[,5]))
+dat$stage <- factor(dat$stage, levels = unique(dat$stage))
+#ggplot(dat, aes(x=stage,  y=FC, group=geneID, colour=type)) + geom_line() + theme_minimal()
+# The following is for a better plot:
+#ggplot(dat, aes(x=stage,  y=FC, group=geneID, colour=type)) + geom_line() + theme_minimal() + theme(axis.text=element_text(size=18), axis.title=element_text(size=18), axis.title.x=element_blank(), legend.title=element_blank(), legend.text=element_text(size=18), plot.title = element_text(size=16, hjust = 0.5)) + ggtitle(dat$geneID[1]) + ylab("Expression [log2(FC)]") + geom_point() + scale_colour_brewer(palette="Set1")
+### Saving as png image, naming the file with the main geneID
+p = ggplot(dat, aes(x=stage,  y=FC, group=geneID, colour=type)) + geom_line() + theme_minimal() + theme(axis.text=element_text(size=18), axis.title=element_text(size=18), axis.title.x=element_blank(), legend.title=element_blank(), legend.text=element_text(size=18), plot.title = element_text(size=16, hjust = 0.5)) + ggtitle(dat$geneID[length(x[,1])]) + ylab("Expression [log2(FC)]") + geom_point() + scale_colour_brewer(palette="Set1")
+ggsave(file = paste(rownames(x)[length(x[,1])], ".png", sep=""), plot = p, device = "png", width = 7.5, height = 5, units = "in")

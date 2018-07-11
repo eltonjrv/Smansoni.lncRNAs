@@ -4,5 +4,9 @@ Ad-hoc pipeline for lncRNAs identification on the genome/transcriptome of the bl
 
 >**The Schistosoma mansoni genome encodes thousands of long non-coding RNAs predicted to be functional at different parasite life-cycle stages.** Elton J. R. Vasconcelos, Lucas F. daSilva, David S. Pires, Guilherme M. Lavezzo, Adriana S. A. Pereira, Murilo S. Amaral and Sergio Verjovski-Almeida. *Scientific Reports* (2017).
 
+A second publication came out in Jul/2018 (https://doi.org/10.1093/database/bay068) and it is about a web resource which we disclose a catalog of each of the S. mansoni lncRNAs whose expression is correlated to protein-coding genes along the parasite life-cycle. We also provide access to navigation on the co-expression networks disclosed in our previous publication, where we correlated mRNAs and lncRNAs transcriptional patterns, pinpointing biological processes where lncRNAs might act upon.
+
+>**Atlas of Schistosoma mansoni long non-coding RNAs and their expression correlation to protein-coding genes.** Elton J. R. Vasconcelos, Vinícius C Mesel, Lucas F. daSilva, David S. Pires, Guilherme M. Lavezzo, Adriana S. A. Pereira, Murilo S. Amaral and Sergio Verjovski-Almeida. *Database* (2018).
+
 Laboratório de Expressão Gênica em Eucariotos, Instituto Butantan, 05503-900 São Paulo, SP, Brazil. 
 Departamento de Bioquímica, Instituto de Química, Universidade de São Paulo, 05508-900 São Paulo, SP, Brazil

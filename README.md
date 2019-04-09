@@ -8,4 +8,5 @@ Ad-hoc pipeline for lncRNAs identification on the genome/transcriptome of the bl
 A second publication came out in Jul/2018 (https://doi.org/10.1093/database/bay068). It is about a web resource where we disclose a catalog of each of the S. mansoni lncRNAs whose expression is correlated to protein-coding genes along the parasite life-cycle. We also provide access to navigation on the co-expression networks disclosed in our previous publication, where we correlated mRNAs and lncRNAs transcriptional patterns, pinpointing biological processes where lncRNAs might act upon.
 
 >**Atlas of Schistosoma mansoni long non-coding RNAs and their expression correlation to protein-coding genes.** Elton J. R. Vasconcelos, Vinícius C Mesel, Lucas F. daSilva, David S. Pires, Guilherme M. Lavezzo, Adriana S. A. Pereira, Murilo S. Amaral and Sergio Verjovski-Almeida. *Database* (2018).
-Access our web resource at http://verjolab.usp.br:8000/
+
+Access our web resource here http://verjolab.usp.br:8000/

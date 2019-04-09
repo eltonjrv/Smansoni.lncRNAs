@@ -9,4 +9,4 @@ A second publication came out in Jul/2018 (https://doi.org/10.1093/database/bay0
 
 >**Atlas of Schistosoma mansoni long non-coding RNAs and their expression correlation to protein-coding genes.** Elton J. R. Vasconcelos, Vinícius C Mesel, Lucas F. daSilva, David S. Pires, Guilherme M. Lavezzo, Adriana S. A. Pereira, Murilo S. Amaral and Sergio Verjovski-Almeida. *Database* (2018).
 
-Access our web resource here http://verjolab.usp.br:8000/
+Access our [*S. mansoni* lncRNAs web resource](http://verjolab.usp.br:8000/)
